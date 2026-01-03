@@ -38,6 +38,41 @@ A minimal Next.js + MUI URL shortener that stores links in Postgres.
 
 Open [http://localhost:3000](http://localhost:3000) and start shortening links.
 
+### How to use
+
+1. Start Postgres (example using Docker):
+
+   ```bash
+   docker run --name url-shortener-db -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=url_shortener -p 5432:5432 -d postgres:15
+   ```
+
+2. Copy the environment file and confirm `DATABASE_URL` matches your database connection (the example above already works with the default `.env.example`).
+
+   ```bash
+   cp .env.example .env
+   ```
+
+3. Run the app locally:
+
+   ```bash
+   npm run dev
+   ```
+
+4. Shorten a link:
+   - Paste a full URL into the single input field on the homepage and press **Shorten**.
+   - The app returns a compact URL (e.g., `http://localhost:3000/abc123`).
+   - Share the short URL; visiting it will redirect to the original destination.
+
+5. Call the API directly (optional):
+
+   ```bash
+   curl -X POST http://localhost:3000/api/shorten \
+     -H 'Content-Type: application/json' \
+     -d '{"url":"https://example.com"}'
+   ```
+
+   The response includes the short link under `shortUrl`.
+
 ## API
 
 `POST /api/shorten` with a JSON body `{ "url": "https://example.com" }` returns `{ "shortUrl": "http://localhost:3000/abc123" }`.
